@@ -4,6 +4,7 @@ const session = require('express-session');
 const cors = require('cors');
 const errorhandler = require('errorhandler');
 const mongoose = require('mongoose');
+const path = require('path');
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname, +'/professionalNetworking'))
 
 app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
