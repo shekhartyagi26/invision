@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
+
 app.use(express.static(__dirname, +'/professionalNetworking'))
 
 app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
@@ -43,11 +44,11 @@ require('./config/passport');
 app.use(require('./routes'));
 
 /// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+// app.use(function (req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
 
 /// error handlers
 
@@ -55,8 +56,6 @@ app.use(function (req, res, next) {
 // will print stacktrace
 if (!isProduction) {
   app.use(function (err, req, res, next) {
-    console.log(err.stack);
-
     res.status(err.status || 500);
 
     res.json({
@@ -78,6 +77,10 @@ app.use(function (err, req, res, next) {
       error: {}
     }
   });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/professionalNetworking/index.html');
 });
 
 // finally, let's start our server...
