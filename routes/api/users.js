@@ -3,6 +3,8 @@ var router = require('express').Router();
 var passport = require('passport');
 var User = mongoose.model('User');
 var auth = require('../auth');
+var multer = require('multer');
+var { STORAGE, DEFAULT_FILE } = require('../../common/generic')
 
 router.get('/user', auth.required, function (req, res, next) {
   User.findById(req.payload.id).then(function (user) {
@@ -12,17 +14,17 @@ router.get('/user', auth.required, function (req, res, next) {
   }).catch(next);
 });
 
-router.put('/user', auth.required, (req, res, next) => {
+router.put('/user', auth.required, multer({ storage: STORAGE('profileImage') }).single('image'), (req, res, next) => {
   User.findById(req.payload.id)
     .then((user) => {
       if (!user) { return res.sendStatus(401); }
-      let { username, email, bio, image, password, firstName, lastName, headline, currentPosition, country, state, industry } = req.body.user;
+      let { username, email, bio, image, password, firstName, lastName, headline, currentPosition, country, state, industry } = req.body;
       // user = Object.assign(user, user.verifyData({ username, email, bio, image, password, firstName, lastName, headline, currentPosition, country, state, industry }))
 
       if (username) user.username = username;
       if (email) user.email = email;
       if (bio) user.bio = bio;
-      if (image) user.image = image;
+      if (req.file) user.image = DEFAULT_FILE(req.file).image_url;
       if (password) user.setPassword(password);
       if (firstName) user.firstName = firstName;
       if (lastName) user.lastName = lastName;
