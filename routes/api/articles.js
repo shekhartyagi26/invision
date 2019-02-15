@@ -202,9 +202,9 @@ router.post('/:article/favorite', auth.required, function (req, res, next) {
     console.log('1111111111111111111111111111111111111111111111111111')
     return user.favorite(articleId).then((favorit) => {
       console.log('22222222222222222222222222222222222222222222222')
-      // return req.article.updateFavoriteCount().then(function (article) {
-      //   return res.json({ article: article.toJSONFor(user) });
-      // });
+      return req.article.updateFavoriteCount().then(function (article) {
+        return res.json({ article: article.toJSONFor(user) });
+      });
     });
   }).catch(next);
 });
