@@ -31,7 +31,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(express.static(__dirname, +'/professionalNetworking'))
 // app.use(express.cookieParser('yoursecrethere'));
-app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: true, saveUninitialized: true }));
+app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
 if (!isProduction) {
   app.use(errorhandler());
