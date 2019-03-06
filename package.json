@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon ./app.js",
+    "postinstall": "ng build"
   },
   "repository": {
     "type": "git",
@@ -36,5 +37,9 @@
   "devDependencies": {
     "newman": "^3.8.2",
     "nodemon": "^1.11.0"
+  },
+  "engines": {
+    "node": "8.11.1",
+    "npm": "5.6.0"
   }
 }
