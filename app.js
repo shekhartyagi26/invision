@@ -30,8 +30,8 @@ app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
 
 app.use(express.static(__dirname, +'/professionalNetworking'))
-
-app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+// app.use(express.cookieParser('yoursecrethere'));
+app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: true, saveUninitialized: true }));
 
 if (!isProduction) {
   app.use(errorhandler());
