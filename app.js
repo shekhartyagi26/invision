@@ -5,6 +5,7 @@ const cors = require('cors');
 const errorhandler = require('errorhandler');
 const mongoose = require('mongoose');
 const path = require('path');
+var parseurl = require('parseurl')
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -24,21 +25,13 @@ app.use(bodyParser.urlencoded({
   parameterLimit: 50000
 }))
 
-app.use(session({
-  secret: 'professionalNetworking',
-  resave: false,
-  saveUninitialized: true
-}))
-
 app.use(express.static(path.join(__dirname, './uploads')))
 
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
 
-app.use(express.static(__dirname, +'/professionalNetworking'))
-// app.use(express.cookieParser('yoursecrethere'));
-// app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
-// app.use(require('express-session')({ secret: 'professionalNetworking', resave: true, saveUninitialized: true }));
+app.use(express.static(__dirname, +'/professionalNetworking'));
+app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
 if (!isProduction) {
   app.use(errorhandler());
@@ -47,8 +40,8 @@ if (!isProduction) {
 if (isProduction) {
   mongoose.connect(process.env.MONGODB_URI);
 } else {
-  mongoose.connect('mongodb://shekhartyagi26@gmail.com:98kingsten@ds161345.mlab.com:61345/professionalnetworking')
-  // mongoose.connect('mongodb://localhost/professionalNetworking');
+  // mongoose.connect('mongodb://shekhartyagi26@gmail.com:98kingsten@ds161345.mlab.com:61345/professionalnetworking')
+  mongoose.connect('mongodb://localhost/professionalNetworking');
   mongoose.set('debug', true);
 }
 
@@ -83,6 +76,19 @@ if (!isProduction) {
   });
 }
 
+app.use(function (req, res, next) {
+  if (!req.session.views) {
+    req.session.views = {}
+  }
+
+  // get the url pathname
+  var pathname = parseurl(req).pathname
+
+  // count the views
+  req.session.views[pathname] = (req.session.views[pathname] || 0) + 1
+
+  next()
+})
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {

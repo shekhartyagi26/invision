@@ -66,7 +66,9 @@ router.post('/users', (req, res, next) => {
   user.setPassword(password);
   user.save().then(function () {
     return res.json({ user: user.toAuthJSON() });
-  }).catch(next);
+  }).catch(err=>{
+    console.log(err)
+  });
 });
 
 module.exports = router;
