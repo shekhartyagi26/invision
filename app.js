@@ -104,7 +104,10 @@ app.use(function (err, req, res, next) {
     }
   });
 });
+app.get('/', (req, res) => {
+  res.send("hello app is working");
 
+})
 app.get('*', (req, res) => {
   res.sendFile(__dirname + '/invision/index.html');
 });
