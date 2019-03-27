@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
 const errorhandler = require('errorhandler');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const path = require('path');
 var parseurl = require('parseurl')
 const cookieParser = require('cookie-parser')
@@ -42,7 +42,7 @@ if (!isProduction) {
 }
 
 if (isProduction) {
-  mongoose.connect(process.env.MONGODB_URI);
+  // mongoose.connect(process.env.MONGODB_URI);
 } else {
   // mongoose.connect('mongodb://shekhartyagi26@gmail.com:98kingsten@ds161345.mlab.com:61345/professionalnetworking')
   // mongoose.connect('mongodb://localhost/professionalNetworking');
