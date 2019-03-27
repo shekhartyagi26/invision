@@ -6,7 +6,7 @@ const errorhandler = require('errorhandler');
 const mongoose = require('mongoose');
 const path = require('path');
 var parseurl = require('parseurl')
-
+const cookieParser = require('cookie-parser')
 var isProduction = process.env.NODE_ENV === 'production';
 
 // Create global app object
@@ -30,8 +30,12 @@ app.use(express.static(path.join(__dirname, './uploads')))
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
 
-app.use(express.static(__dirname, +'/professionalNetworking'));
-app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+app.use(express.static(__dirname, +'/invision'));
+// app.use(session({ secret: 'professionalNetworking', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+
+
+app.use(cookieParser('professionalNetworking'));
+app.use(session());
 
 if (!isProduction) {
   app.use(errorhandler());
@@ -102,7 +106,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/professionalNetworking/index.html');
+  res.sendFile(__dirname + '/invision/index.html');
 });
 
 // finally, let's start our server...
